@@ -26,7 +26,7 @@ resource "kubernetes_namespace" "argocd" {
 }
 
 # ---------------------------------------------------------
-# Helm Chart ArgoCD
+# Helm Release ArgoCD (UPDATED)
 # ---------------------------------------------------------
 resource "helm_release" "argocd" {
   name       = "argocd"
@@ -35,31 +35,29 @@ resource "helm_release" "argocd" {
   chart      = "argo-cd"
   version    = "6.7.2"
 
-  # Configuration recommandée pour EKS
-  set {
-    name  = "server.service.type"
-    value = "ClusterIP"
-  }
-
-  set {
-    name  = "configs.params.server.insecure"
-    value = "true"
-  }
-
-  set {
-    name  = "controller.enableStatefulSet"
-    value = "false"
-  }
-
-  set {
-    name  = "redis-ha.enabled"
-    value = "false"
-  }
-
-  set {
-    name  = "dex.enabled"
-    value = "false"
-  }
+  ### CHANGED — remplacement des blocks set {} par un tableau set = [ {…}, {…} ]
+  set = [
+    {
+      name  = "server.service.type"
+      value = "ClusterIP"
+    },
+    {
+      name  = "configs.params.server.insecure"
+      value = "true"
+    },
+    {
+      name  = "controller.enableStatefulSet"
+      value = "false"
+    },
+    {
+      name  = "redis-ha.enabled"
+      value = "false"
+    },
+    {
+      name  = "dex.enabled"
+      value = "false"
+    }
+  ]
 
   depends_on = [
     kubernetes_namespace.argocd

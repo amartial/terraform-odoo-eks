@@ -73,7 +73,7 @@ resource "aws_route_table_association" "public" {
 
 # NAT Gateway (un seul pour simplifier, AZ[0])
 resource "aws_eip" "nat" {
-  vpc = true
+  domain = "vpc"
 
   tags = merge(local.tags, {
     Name = "${local.name_prefix}-nat-eip"

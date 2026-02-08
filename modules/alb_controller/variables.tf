@@ -8,12 +8,19 @@ variable "oidc_issuer" {
   type        = string
 }
 
+variable "vpc_id" {
+  description = "ID du VPC dans lequel ALB Controller opérera"
+  type        = string
+}
+
+### CHANGED — nouvelle variable obligatoire
+variable "aws_region" {
+  description = "Région AWS dans laquelle tourne le cluster"
+  type        = string
+}
+
 variable "tags" {
   description = "Tags additionnels"
   type        = map(string)
   default     = {}
-}
-
-variable "vpc_id" {
-  type = string
 }
